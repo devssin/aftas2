@@ -1,0 +1,64 @@
+<div class="flex space-x-4">
+    <div class="p-4 m-4 shadow w-full">
+        <div class="flex justify-between">
+            <h4 class="m-2 font-medium text-lg">Huntings :</h4> 
+            <button *ngIf="etat == 'Pending'" (click)="isShowAddForm=true" type="button" class="flex items-center justify-center text-white bg-indigo-400 hover:bg-indigo-500 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 m-4 focus:outline-none ">
+                <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path clip-rule="evenodd" fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                </svg>
+                Add Competition
+            </button>
+        </div>
+        <div class="flex items-center p-2 m-2 bg-gray-50 justify-between" *ngFor="let hunting of huntings ">
+            <div class="flex space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archery-arrow" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 7v3h3l3 -3h-3v-3z" /><path d="M14 10l-9 9" /><path d="M5 15v4h4" /></svg>
+                <p> <span class="font-medium">member name : </span> {{ hunting.member?.name }} {{ hunting.member?.familtyName }} <span class="font-medium">- fish : </span> {{ hunting.fish?.name }} <span class="font-medium"> - number of fish : </span>{{ hunting.numberOfFish }}</p>
+            </div>
+            <button *ngIf="etat == 'Pending'" (click)="delete(hunting)">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="isShowAddForm" class="backdrop-brightness-50 overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow">
+            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add New Hunting
+                </h3>
+                <button (click)="closeAddForm()" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <div>
+                <form (submit)="postData()" class="max-w-sm mx-auto">
+                    <div class="mb-5">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Member</label>
+                        <select [(ngModel)]="hunting.member_num" name="description" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                            <Option></Option>
+                            <Option *ngFor="let ranking of rankings" [value]="ranking.id.member.num">{{ ranking.id.member.name }} {{ ranking.id.member.familtyName }}</Option>
+                        </select>
+                    </div>
+                    <div class="mb-5">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fish</label>
+                        <select [(ngModel)]="hunting.fish_name" name="description" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                            <Option></Option>
+                            <Option *ngFor="let fish of fishs" [value]="fish.name">{{ fish.name }}</Option>
+                        </select>
+                    </div>
+                    <div class="mb-5">
+                        <label for="number" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">number Of Fish</label>
+                        <input [(ngModel)]="hunting.numberOfFish" name="number" type="number" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                    </div>
+                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
+                        <button type="submit" class="text-white bg-indigo-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
